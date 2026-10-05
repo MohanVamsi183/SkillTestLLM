@@ -1,2 +1,2 @@
 # SkillTestLLM
-A pip-installable pytest plugin that tests LLM prompts and skills,
+A pip-installable pytest plugin that tests LLM prompts and skills.
