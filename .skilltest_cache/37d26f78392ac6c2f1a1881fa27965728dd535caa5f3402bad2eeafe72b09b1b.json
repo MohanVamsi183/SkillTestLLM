@@ -1,0 +1,5 @@
+{
+  "model": "groq/openai/gpt-oss-20b",
+  "prompt": "Name one planet.",
+  "reply": "Mars"
+}

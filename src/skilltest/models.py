@@ -1,12 +1,12 @@
-"""Model layer: one function to call any LLM, with fallbacks and a mock for tests."""
+"""Model layer: one function to call any LLM, with fallbacks, caching and a mock for tests."""
 
 from __future__ import annotations
 
-import litellm
 from dotenv import load_dotenv
 
-load_dotenv()                        # read API keys from .env
-litellm.suppress_debug_info = True   # hide LiteLLM's "Give Feedback" banner
+from skilltest.cache import Cache, CacheMiss, make_key
+
+load_dotenv()  # read API keys from .env
 
 
 class ModelError(Exception):
@@ -45,6 +45,11 @@ def _call_one(prompt: str, model: str, temperature: float) -> str:
     """Call a single model and return its text reply."""
     if model.startswith("mock/"):
         return _call_mock(prompt, model)
+
+    # Lazy import: litellm takes seconds to load, and mock-only runs never need it.
+    import litellm
+
+    litellm.suppress_debug_info = True
     response = litellm.completion(
         model=model,
         messages=[{"role": "user", "content": prompt}],
@@ -59,16 +64,38 @@ def call_model(
     *,
     fallbacks: list[str] | tuple[str, ...] = (),
     temperature: float = 0.0,
+    cache: Cache | None = None,
+    run_index: int = 0,
+    replay: bool = False,
 ) -> str:
-    """Send `prompt` to `model`; if it fails, try each fallback in order.
+    """Send `prompt` to `model`, trying each fallback in order if it fails.
 
-    Returns the first successful reply. Raises ModelError listing every
-    failure if all models fail.
+    - cache:     if given, reuse a saved reply or save the new one
+    - run_index: lets the same prompt be cached several times (for repeated runs)
+    - replay:    never call a model; raise CacheMiss if no saved reply exists
     """
+    key = make_key(model, prompt, temperature, run_index)
+
+    if cache is not None:
+        saved = cache.get(key)
+        if saved is not None:
+            return saved
+
+    if replay:
+        raise CacheMiss(
+            f"No saved reply for model={model!r}, run {run_index}. "
+            "Run once without --replay to record it."
+        )
+
     errors: list[str] = []
     for candidate in [model, *fallbacks]:
         try:
-            return _call_one(prompt, candidate, temperature)
+            reply = _call_one(prompt, candidate, temperature)
         except Exception as error:  # rate limit, bad name, network, ...
             errors.append(f"{candidate}: {type(error).__name__}: {error}")
+            continue
+        if cache is not None:
+            cache.set(key, reply, model=candidate, prompt=prompt)
+        return reply
+
     raise ModelError("All models failed:\n" + "\n".join(errors))
