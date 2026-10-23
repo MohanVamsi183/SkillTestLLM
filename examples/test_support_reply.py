@@ -1,6 +1,7 @@
 from pathlib import Path
 
-from skilltest import assert_contains, assert_json, assert_max_words, assert_not_contains, run_skill
+
+from skilltest import assert_contains, assert_json, assert_max_words, assert_not_contains, run_skill, assert_judge
 
 SKILL = Path(__file__).parent / "demo_skills" / "support_reply.md"
 
@@ -23,3 +24,12 @@ def test_reply_mentions_30_days():
 def test_reply_does_not_sound_robotic():
     out = run_skill(SKILL, input="Where is my order?", company="Acme")
     assert_not_contains(out, "as an ai")
+
+def test_refund_reply_is_polite_and_correct():
+    out = run_skill(
+        SKILL,
+        input="I bought this 10 days ago and it broke. I want my money back.",
+        company="Acme",
+    )
+    assert_judge(out, "Politely tells the customer they can get a refund because 10 days is within the 30-day window")
+

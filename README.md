@@ -204,7 +204,7 @@ Measured on the author's machine, the first call took 8.91 seconds (including th
 pytest -v
 ```
 
-The suite has 39 tests covering the model layer, fallbacks, the cache, replay mode, templating and skill loading. It uses mock models only, so it needs no network access or API keys and finishes in under a second.
+The suite has 46 tests covering the model layer, fallbacks, the cache, replay mode, templating and skill loading. It uses mock models only, so it needs no network access or API keys and finishes in under a second.
 
 ## Project structure
 
@@ -241,7 +241,7 @@ SkillTestLLM/
 - [x] Skill files with safe templating and `run_skill()`
 - [x] Command-line flags (`--skilltest-model`, `--replay`, `--no-cache`) and `[tool.skilltest]` config in `pyproject.toml`
 - [x] Assertion helpers: `assert_json`, `assert_contains`, `assert_regex`, `assert_max_words`
-- [ ] LLM-as-judge assertion with structured pass/fail verdicts
+- [x] LLM-as-judge assertion with structured pass/fail verdicts
 - [ ] Repeated runs with a pass-rate threshold for non-deterministic outputs
 - [ ] Snapshot drift detection using sentence embeddings
 - [ ] Automatic edge-case inputs: empty, very long, multilingual, prompt injection

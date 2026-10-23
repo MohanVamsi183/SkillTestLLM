@@ -8,6 +8,7 @@ from skilltest.checks import (  # noqa: E402
     assert_not_contains,
     assert_regex,
 )
+from skilltest.judge import JudgeError, Verdict, assert_judge, judge  # noqa: E402
 from skilltest.skill import run_skill  # noqa: E402
 
 __all__ = [
@@ -17,5 +18,9 @@ __all__ = [
     "assert_not_contains",
     "assert_regex",
     "assert_max_words",
+    "assert_judge",
+    "judge",
+    "Verdict",
+    "JudgeError",
     "SkillAssertionError",
 ]
