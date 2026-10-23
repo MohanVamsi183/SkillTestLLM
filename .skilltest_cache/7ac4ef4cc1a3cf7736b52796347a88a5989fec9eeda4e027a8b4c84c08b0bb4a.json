@@ -1,0 +1,5 @@
+{
+  "model": "groq/openai/gpt-oss-20b",
+  "prompt": "You are a customer support agent for Acme.\nRefunds are allowed within 30 days of purchase.\n\nReply to the customer message below. Respond with ONLY a JSON object with\nexactly two keys: \"reply\" (your message to the customer) and \"tone\"\n(one word describing your tone). No other text.\n\nCustomer message: Can I still return this? I bought it 3 weeks ago.\n",
+  "reply": "{\"reply\":\"Yes, you can still return it. Since you purchased it 21 days ago, it falls within our 30‑day return window. Please let us know how you'd like to proceed.\",\"tone\":\"helpful\"}"
+}

@@ -19,3 +19,10 @@ skilltest = "skilltest.plugin"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+[tool.skilltest]
+model = "ollama/qwen2.5:3b"
+judge = "groq/openai/gpt-oss-120b"
+fallbacks = ["groq/openai/gpt-oss-20b"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,5 @@
+{
+  "model": "ollama/qwen2.5:3b",
+  "prompt": "You are a customer support agent for Acme.\nRefunds are allowed within 30 days of purchase.\n\nReply to the customer message below. Respond with ONLY a JSON object with\nexactly two keys: \"reply\" (your message to the customer) and \"tone\"\n(one word describing your tone). No other text.\n\nCustomer message: Can I still return this? I bought it 3 weeks ago.\n",
+  "reply": "{\n    \"reply\": \"Dear customer, yes, you are eligible for a refund as it is within the 30 days of purchase. Please proceed with the return process. Thank you for choosing Acme.\",\n    \"tone\": \"helpful\"\n}"
+}
