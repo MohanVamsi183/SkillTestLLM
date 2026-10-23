@@ -170,15 +170,15 @@ settings.use_cache = True                    # save and reuse replies
 settings.replay = False                      # True = recorded replies only, no model calls
 ```
 
-| Setting | Default | Meaning |
-| --- | --- | --- |
-| `model` | `ollama/qwen2.5:3b` | Model that runs skills |
-| `judge` | `groq/openai/gpt-oss-120b` | Model reserved for LLM-as-judge checks |
-| `fallbacks` | `[]` | Models to try in order if the main model fails |
-| `temperature` | `0.7` | Sampling temperature for skill runs |
-| `cache_dir` | `.skilltest_cache` | Folder for saved replies |
-| `use_cache` | `True` | Save and reuse replies |
-| `replay` | `False` | Serve recorded replies only |
+| Setting       | Default                    | Meaning                                        |
+| ------------- | -------------------------- | ---------------------------------------------- |
+| `model`       | `ollama/qwen2.5:3b`        | Model that runs skills                         |
+| `judge`       | `groq/openai/gpt-oss-120b` | Model reserved for LLM-as-judge checks         |
+| `fallbacks`   | `[]`                       | Models to try in order if the main model fails |
+| `temperature` | `0.7`                      | Sampling temperature for skill runs            |
+| `cache_dir`   | `.skilltest_cache`         | Folder for saved replies                       |
+| `use_cache`   | `True`                     | Save and reuse replies                         |
+| `replay`      | `False`                    | Serve recorded replies only                    |
 
 ### 5. Call a model directly
 
@@ -204,7 +204,7 @@ Measured on the author's machine, the first call took 8.91 seconds (including th
 pytest -v
 ```
 
-The suite has 19 tests covering the model layer, fallbacks, the cache, replay mode, templating and skill loading. It uses mock models only, so it needs no network access or API keys and finishes in under a second.
+The suite has 39 tests covering the model layer, fallbacks, the cache, replay mode, templating and skill loading. It uses mock models only, so it needs no network access or API keys and finishes in under a second.
 
 ## Project structure
 
@@ -239,8 +239,8 @@ SkillTestLLM/
 - [x] Model layer with fallback chain and mock models
 - [x] Disk cache and replay mode
 - [x] Skill files with safe templating and `run_skill()`
-- [ ] Command-line flags (`--skilltest-model`, `--replay`, `--no-cache`) and `[tool.skilltest]` config in `pyproject.toml`
-- [ ] Assertion helpers: `assert_json`, `assert_contains`, `assert_regex`, `assert_max_words`
+- [x] Command-line flags (`--skilltest-model`, `--replay`, `--no-cache`) and `[tool.skilltest]` config in `pyproject.toml`
+- [x] Assertion helpers: `assert_json`, `assert_contains`, `assert_regex`, `assert_max_words`
 - [ ] LLM-as-judge assertion with structured pass/fail verdicts
 - [ ] Repeated runs with a pass-rate threshold for non-deterministic outputs
 - [ ] Snapshot drift detection using sentence embeddings
